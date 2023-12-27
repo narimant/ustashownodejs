@@ -19,7 +19,7 @@ const getBlogPagePosts = async (req, res) => {
         })
         .skip((pageNumber - 1) * paginate)
         .limit(paginate);
-      const AllPostsNum = await Post.find();
+      const AllPostsNum = await Post.find({ published: true });
       res.status(200).json({ GolPosts, AllPostsNum });
     } else {
       const AllPosts = await Post.find();

@@ -16,7 +16,7 @@ const getAllMidBan = async (req, res) => {
       res.status(200).json(AllMidBans);
     }
   } catch (error) {
-    res.status(400).json({ msg: "error" });
+    res.status(400).json({ msg: error });
   }
 };
 

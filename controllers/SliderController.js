@@ -97,7 +97,6 @@ const getActiveSlider = async (req, res) => {
       image: 1,
       imageAlt: 1,
       link: 1,
-      sorter:1
     });
 
     res.status(200).json(activeSlider);
