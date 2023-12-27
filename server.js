@@ -40,10 +40,12 @@ const MiddleBannerRoutes=require('./routes/MiddleBannerRoutes');
 const PostRoutes=require('./routes/PostRoutes');
 const SliderRoutes=require('./routes/SliderRoutes');
 const CategoryRoutes=require('./routes/CategoryRoutes');
+const ProductRoutes=require('./routes/ProductRoutes');
 app.use("/api",MiddleBannerRoutes);
 app.use("/api",PostRoutes);
 app.use("/api",SliderRoutes);
 app.use("/api",CategoryRoutes);
+app.use("/api",ProductRoutes);
 
 
 const port = process.env.PORT;
