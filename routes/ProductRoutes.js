@@ -16,4 +16,5 @@ router.get("/get-product-by-id/:id",ProductController.getOneProductById)
 router.get("/get-new-product",ProductController.getNewProducts)
 router.get("/get-most-view/:limit",ProductController.getMostView)
 router.post("/get-related-product",ProductController.getRelatedProduct)
+router.get("/get-home-products",ProductController.getHomeProducts)
 module.exports=router;

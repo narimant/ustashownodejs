@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Product = require("./Product");
 const CategorySchema = new mongoose.Schema({
   title: {
     required: true,
@@ -24,7 +25,10 @@ const CategorySchema = new mongoose.Schema({
     required: true,
     type: Boolean,
   },
-
+// product:[{
+//   type:mongoose.Schema.Types.ObjectId,
+//   ref:"Product"
+// }],
   date: {
     type: String,
     default: new Date().toLocaleDateString("fa-IR", {

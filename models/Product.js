@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Category = require("./Category");
 const ProductSchema = new mongoose.Schema({
   title: {
     required: true,
@@ -76,11 +77,11 @@ const ProductSchema = new mongoose.Schema({
     type: Array,
     default:[]
   },
-  categories: {
+  categories: [ {
     required: true,
-    type: Array,
-    default:[]
-  },
+    type: mongoose.Schema.Types.ObjectId,
+    ref:"Category"
+  }],
   published: {
     required: true,
     type: Boolean,

@@ -62,11 +62,11 @@ const getAllProducts = async (req, res) => {
       const GolProducts = await Products.find()
         .sort({ _id: -1 })
         .skip((pageNumber - 1) * paginate)
-        .limit(paginate);
+        .limit(paginate).populate('categories');
       const AllProductsNum = await Products.find();
       res.status(200).json({ GolProducts, AllProductsNum });
     } else {
-      const AllProducts = await Products.find().sort({_id:-1}).select({mainFile:false});
+      const AllProducts = await Products.find().sort({_id:-1}).select({mainFile:false}).populate('categories');
       res.status(200).json(AllProducts);
     }
   } catch (error) {
@@ -151,6 +151,11 @@ const getNewProducts = async (req, res) => {
         shortDesc: 1,
         type: 1,
         pageView: 1,
+        categories:1,
+        features:1,
+        buyNumber:1,
+        typeOfProduct:1,
+        price:1
       });
 
     res.status(200).json(newProducts);
@@ -164,17 +169,11 @@ const getNewProducts = async (req, res) => {
 const getRelatedProduct  = async (req, res) => {
   try {
     const goalIds=req.body.goalIds;
+    console.log(req.body);
     const relatedProducts = await Products.find({_id:goalIds,published: true})
       .limit(4)
       .select({
-        title: 1,
-        updatedAt: 1,
-        slug: 1,
-        image: 1,
-        imageAlt: 1,
-        shortDesc: 1,
-        type: 1,
-        pageView: 1,
+        mainFile:false
       });
 
     res.status(200).json(relatedProducts);
@@ -187,7 +186,7 @@ const getRelatedProduct  = async (req, res) => {
 
 const getRelProduct = async (req, res) => {
   try {
-    const allProducts = await Products.find({published: true}).select({ title: 1 });
+    const allProducts = await Products.find({published: true}).select({ title: 1 })
     res.status(200).json(allProducts);
   } catch (error) {
     console.log(error);
@@ -205,7 +204,17 @@ const getRelCategory = async (req, res) => {
     res.status(400).json({ msg: "خطا در دریافت پست ها" });
   }
 };
-
+const getHomeProducts=async (req,res)=>{
+  try {
+    const appProducts = await Products.find({published: true,typeOfProduct:"app"}).limit(4).select({ mainFile: false }).populate('categories');
+    const bookProducts = await Products.find({published: true,typeOfProduct:"book"}).limit(4).select({ mainFile: false }).populate('categories');
+    const grProducts = await Products.find({published: true,typeOfProduct:"gr"}).limit(4).select({ mainFile: false }).populate('categories');
+    res.status(200).json({appProducts,bookProducts,grProducts});
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ msg: "خطا در دریافت پست ها" });
+  }
+}
 const getMosetView = async () => {};
 module.exports.getPageProducts = getPageProducts;
 module.exports.getAllProducts = getAllProducts;
@@ -218,3 +227,4 @@ module.exports.getNewProducts = getNewProducts;
 module.exports.getRelProduct = getRelProduct;
 module.exports.getMostView = getMostView;
 module.exports.getRelatedProduct = getRelatedProduct;
+module.exports.getHomeProducts = getHomeProducts;
