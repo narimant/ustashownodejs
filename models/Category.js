@@ -25,10 +25,10 @@ const CategorySchema = new mongoose.Schema({
     required: true,
     type: Boolean,
   },
-// product:[{
-//   type:mongoose.Schema.Types.ObjectId,
-//   ref:"Product"
-// }],
+product:{
+  type:mongoose.Schema.Types.ObjectId,
+  ref:"Product"
+},
   date: {
     type: String,
     default: new Date().toLocaleDateString("fa-IR", {
