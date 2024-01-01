@@ -16,4 +16,5 @@ router.get("/get-post-by-id/:id",PostController.getOnePostById)
 router.get("/get-new-post",PostController.getNewPosts)
 router.get("/get-most-view/:limit",PostController.getMostView)
 router.post("/get-related-post",PostController.getRelatedPost)
+router.get("/search-posts",PostController.searchPosts)
 module.exports=router;

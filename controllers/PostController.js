@@ -194,6 +194,57 @@ const getRelPost = async (req, res) => {
   }
 };
 
+
+
+
+const searchPosts = async (req, res) => {
+  try {
+    let allPosts=await Post.find({published:1}).sort({_id:-1});
+    if (req.query.keyword) {
+      const a = allPosts.filter((item) =>{
+        console.log(req.query.keyword);
+        return item.title.includes(req.query.keyword)}
+      );
+      allPosts = a;
+    }
+
+//pageinate
+
+const postsNumber = allPosts.length;
+const pageNumber =req.query.pn?req.query.pn : 1;
+paginate = 12;
+const startNumber = (pageNumber - 1) * paginate;
+const endNumber = paginate * pageNumber;
+const a = [];
+if (pageNumber >= 0) {
+  for (let i = startNumber; i < endNumber; i++) {
+    if (allPosts[i] != null) {
+      a.push(allPosts[i]);
+    }
+  }
+}
+allPosts = a;
+const N = Math.ceil(postsNumber / paginate);
+const btns = Array.from(Array(N).keys());
+
+res.status(200).json({ allPosts, btns });
+      // const paginate = 10;
+      // const pageNumber = req.query.pn;
+      // const GolPosts = await Post.find()
+      //   .sort({ _id: -1 })
+      //   .skip((pageNumber - 1) * paginate)
+      //   .limit(paginate);
+      // const AllPostsNum = await Post.find();
+      // res.status(200).json({ GolPosts, AllPostsNum });
+    // } else {
+    //   const AllPosts = await Post.find();
+    //   res.status(200).json(AllPosts);
+    // }
+  } catch (error) {
+    res.status(400).json({ msg: "error" });
+  }
+};
+
 const getMosetView = async () => {};
 module.exports.getBlogPagePosts = getBlogPagePosts;
 module.exports.getAllPosts = getAllPosts;
@@ -206,3 +257,4 @@ module.exports.getNewPosts = getNewPosts;
 module.exports.getRelPost = getRelPost;
 module.exports.getMostView = getMostView;
 module.exports.getRelatedPost = getRelatedPost;
+module.exports.searchPosts = searchPosts;
