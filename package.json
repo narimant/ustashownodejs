@@ -24,6 +24,7 @@
     "hpp": "^0.2.3",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^6.3.3",
+    "nodemailer": "^6.9.8",
     "nodemon": "^3.0.2",
     "xss-clean": "^0.1.4"
   }

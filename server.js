@@ -41,11 +41,13 @@ const PostRoutes=require('./routes/PostRoutes');
 const SliderRoutes=require('./routes/SliderRoutes');
 const CategoryRoutes=require('./routes/CategoryRoutes');
 const ProductRoutes=require('./routes/ProductRoutes');
+const UserRoutes=require('./routes/UserRoutes');
 app.use("/api",MiddleBannerRoutes);
 app.use("/api",PostRoutes);
 app.use("/api",SliderRoutes);
 app.use("/api",CategoryRoutes);
 app.use("/api",ProductRoutes);
+app.use("/api",UserRoutes);
 
 
 const port = process.env.PORT;
