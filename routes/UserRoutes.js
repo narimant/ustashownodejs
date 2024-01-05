@@ -101,4 +101,9 @@ router.post(
   userExist,
   UserController.cartManager
 );
+
+router.get(
+  "/cart-number",
+  UserController.cartNumber
+);
 module.exports = router;

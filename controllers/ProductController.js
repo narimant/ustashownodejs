@@ -177,7 +177,7 @@ const getNewProducts = async (req, res) => {
 const getRelatedProduct = async (req, res) => {
   try {
     const goalIds = req.body.goalIds;
-    console.log(req.body);
+
     const relatedProducts = await Products.find({
       _id: goalIds,
       published: true,
@@ -259,7 +259,7 @@ const searchProducts = async (req, res) => {
 
     if (req.query.keyword) {
       const a = allProducts.filter((item) =>{
-        console.log(req.query.keyword);
+     
         return item.title.includes(req.query.keyword)}
       );
       allProducts = a;
@@ -297,7 +297,7 @@ const searchProducts = async (req, res) => {
           Number(pro.price) <= req.query.max &&
           Number(pro.price) >= req.query.min
       );
-      console.log("nariman");
+
       allProducts = a;
     }
 
@@ -308,9 +308,9 @@ const searchProducts = async (req, res) => {
       const categoriesSlugs = req.query.categories.split(",");
       for (let i = 0; i < allProducts.length; i++) {
         for (let j = 0; j < allProducts[i].categories.length; j++) {
-          console.log("array2");
+     
           for (let t = 0; t < categoriesSlugs.length; t++) {
-            console.log("tatari");
+         
             if (allProducts[i].categories[j].slug == categoriesSlugs[t]) {
               a.push(allProducts[i]);
             }

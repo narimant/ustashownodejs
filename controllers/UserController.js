@@ -42,21 +42,28 @@ const getUserPartOfData = async (req, res) => {
       });
       res.status(200).json(goalUser);
     } else if (theSlug == "favorite") {
-      const goalUser = await User.findById(req.user._id).select({
-        favoriteProducts: 1,
-      }).populate({
-        path:'favoriteProducts',populate:{path: 'categories',
-      model: 'Category'}});
+      const goalUser = await User.findById(req.user._id)
+        .select({
+          favoriteProducts: 1,
+        })
+        .populate({
+          path: "favoriteProducts",
+          populate: { path: "categories", model: "Category" },
+        });
 
       res.status(200).json(goalUser);
-    }else if (theSlug == "cart") {
-      const goalUser = await User.findById(req.user._id).select({
-        cart: 1,
-      }).populate({path:'cart',populate:{path: 'categories',
-      model: 'Category'}});
+    } else if (theSlug == "cart") {
+      const goalUser = await User.findById(req.user._id)
+        .select({
+          cart: 1,
+        })
+        .populate({
+          path: "cart",
+          populate: { path: "categories", model: "Category" },
+        });
 
       res.status(200).json(goalUser);
-    }  else if (theSlug == "files") {
+    } else if (theSlug == "files") {
       const goalUser = await User.findById(req.user._id).select({
         userProducts: 1,
       });
@@ -226,7 +233,7 @@ const UpdateMiniUser = async (req, res) => {
         if (validPassword) {
           await User.findByIdAndUpdate(
             req.params.id,
-            { displayName: req.body.displayName , updatedAt:updatedAt},
+            { displayName: req.body.displayName, updatedAt: updatedAt },
             { new: true }
           );
 
@@ -275,20 +282,20 @@ const DeleteUser = async (req, res) => {
 
 const getOneUserById = async (req, res) => {
   try {
-    const goalUser = await User.findById(req.params.id).select({password:false}).populate(
-      {
-        path:'favoriteProducts',
-        populate:{
-          path: 'categories',
-          model: 'Category'
+    const goalUser = await User.findById(req.params.id)
+      .select({ password: false })
+      .populate({
+        path: "favoriteProducts",
+        populate: {
+          path: "categories",
+          model: "Category",
         },
-        path:'cart',
-        populate:{
-          path: 'categories',
-          model: 'Category'
+        path: "cart",
+        populate: {
+          path: "categories",
+          model: "Category",
         },
-
-  });
+      });
     res.status(200).json(goalUser);
   } catch (error) {
     console.log(error);
@@ -298,10 +305,12 @@ const getOneUserById = async (req, res) => {
 
 const getUserDataAccount = async (req, res) => {
   try {
-    console.log(req.user);
-    const goalUser = await User.findById(req.user._id).select({
-      password: false,
-    }).populate("favoriteProducts").populate("cart");
+    const goalUser = await User.findById(req.user._id)
+      .select({
+        password: false,
+      })
+      .populate("favoriteProducts")
+      .populate("cart");
     res.status(200).json(goalUser);
   } catch (error) {
     console.log(error);
@@ -322,83 +331,104 @@ const searchUsers = async (req, res) => {
   }
 };
 
-const favoriteProductManager=async(req,res)=>{
-  try{
-   
-    
-    const theUser=await User.findById(req.user._id)
-  
-    if(req.body.method==="push"){
-      const newUerFavoriteProducts=[...theUser.favoriteProducts,req.body.productId]
-      const newUser={
-        favoriteProducts:newUerFavoriteProducts
-      }
-      await User.findByIdAndUpdate(req.user._id,newUser,{
-        new:true
-      })
-      res.status(200).json({msg:"به محصولات مورد علاقه اضافه شد"})
-    }
-    else if( req.body.method==="remove" ){
-     
-      const oldFavProducts=theUser.favoriteProducts;
-     const pro=oldFavProducts.filter(item=>String(item._id)!==req.body.productId )
- 
-     const newUser={
-      favoriteProducts:pro
-    }
-    console.log(pro);
-     await User.findByIdAndUpdate(req.user._id,newUser,{
-      new:true
-    })
-     res.status(200).json({msg:"محصول مورد نظر از علایق شما حذف شد" })
-    }else{
-      res.status(401).json({msg:"خطا در اطلاعات ارسالی" })
-    }
-   
-  }catch(error){
+const favoriteProductManager = async (req, res) => {
+  try {
+    const theUser = await User.findById(req.user._id);
 
+    if (req.body.method === "push") {
+      const newUerFavoriteProducts = [
+        ...theUser.favoriteProducts,
+        req.body.productId,
+      ];
+      const newUser = {
+        favoriteProducts: newUerFavoriteProducts,
+      };
+      await User.findByIdAndUpdate(req.user._id, newUser, {
+        new: true,
+      });
+      res.status(200).json({ msg: "به محصولات مورد علاقه اضافه شد" });
+    } else if (req.body.method === "remove") {
+      const oldFavProducts = theUser.favoriteProducts;
+      const pro = oldFavProducts.filter(
+        (item) => String(item._id) !== req.body.productId
+      );
+
+      const newUser = {
+        favoriteProducts: pro,
+      };
+      console.log(pro);
+      await User.findByIdAndUpdate(req.user._id, newUser, {
+        new: true,
+      });
+      res.status(200).json({ msg: "محصول مورد نظر از علایق شما حذف شد" });
+    } else {
+      res.status(401).json({ msg: "خطا در اطلاعات ارسالی" });
+    }
+  } catch (error) {}
+};
+
+const cartManager = async (req, res) => {
+  try {
+    const theUser = await User.findById(req.user._id);
+
+    if (req.body.method === "push") {
+      const newUerCartProducts = [...theUser.cart, req.body.productId];
+      const newUser = {
+        cart: newUerCartProducts,
+      };
+      await User.findByIdAndUpdate(req.user._id, newUser, {
+        new: true,
+      });
+      res.status(200).json({ msg: "به محصولات مورد علاقه اضافه شد" });
+    } else if (req.body.method === "remove") {
+      const oldCartProducts = theUser.cart;
+      const pro = oldCartProducts.filter(
+        (item) => String(item._id) !== req.body.productId
+      );
+
+      const newUser = {
+        cart: pro,
+      };
+      console.log(pro);
+      await User.findByIdAndUpdate(req.user._id, newUser, {
+        new: true,
+      });
+      res.status(200).json({ msg: "محصول از سبد حذف شد" });
+    } else {
+      res.status(401).json({ msg: "خطا در اطلاعات ارسالی" });
+    }
+  } catch (error) {
+    res.status(400).json * error();
   }
-}
+};
+const cartNumber = async (req, res) => {
+  try {
+    let token = req.cookies.auth;
 
+    if (!token) {
+      token = req.headers.auth;
 
-
-const cartManager=async(req,res)=>{
-  try{
+    }
+    if (!token) {
+       
+      res.status(200).json({ number: 0 });
+    } else {
+      
+      try {
+        const verrifyed = jwt.verify(token, process.env.TOKEN_SECRET);
+        
+        const theUser = verrifyed;
+      const goalUser=await User.findById(verrifyed._id).select({cart:1})
    
-    
-    const theUser=await User.findById(req.user._id)
-  
-    if(req.body.method==="push"){
-      const newUerCartProducts=[...theUser.cart,req.body.productId]
-      const newUser={
-        cart:newUerCartProducts
+      res.status(200).json({ number: goalUser.cart.length });
+      } catch (error) {
+        console.log(error);
+        res.status(200).json({ number: 0 });
       }
-      await User.findByIdAndUpdate(req.user._id,newUser,{
-        new:true
-      })
-      res.status(200).json({msg:"به محصولات مورد علاقه اضافه شد"})
     }
-    else if( req.body.method==="remove" ){
-     
-      const oldCartProducts=theUser.cart;
-     const pro=oldCartProducts.filter(item=>String(item._id)!==req.body.productId )
- 
-     const newUser={
-      cart:pro
-    }
-    console.log(pro);
-     await User.findByIdAndUpdate(req.user._id,newUser,{
-      new:true
-    })
-     res.status(200).json({msg:"محصول از سبد حذف شد" })
-    }else{
-      res.status(401).json({msg:"خطا در اطلاعات ارسالی" })
-    }
-   
-  }catch(error){
-res.status(400).json*error()
-  }
-}
+  } catch (error) {}
+};
+
 module.exports.getAllUsers = getAllUsers;
 module.exports.registerUser = registerUser;
 module.exports.Deleteuser = DeleteUser;
@@ -411,3 +441,4 @@ module.exports.getUserDataAccount = getUserDataAccount;
 module.exports.getUserPartOfData = getUserPartOfData;
 module.exports.favoriteProductManager = favoriteProductManager;
 module.exports.cartManager = cartManager;
+module.exports.cartNumber = cartNumber;
