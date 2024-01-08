@@ -42,12 +42,14 @@ const SliderRoutes=require('./routes/SliderRoutes');
 const CategoryRoutes=require('./routes/CategoryRoutes');
 const ProductRoutes=require('./routes/ProductRoutes');
 const UserRoutes=require('./routes/UserRoutes');
+const PaymentRoutes=require('./routes/PaymentRoutes');
 app.use("/api",MiddleBannerRoutes);
 app.use("/api",PostRoutes);
 app.use("/api",SliderRoutes);
 app.use("/api",CategoryRoutes);
 app.use("/api",ProductRoutes);
 app.use("/api",UserRoutes);
+app.use("/api",PaymentRoutes);
 
 
 const port = process.env.PORT;

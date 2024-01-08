@@ -1,7 +1,7 @@
 const jwt=require("jsonwebtoken");
 module.exports=function(req,res,next){
 let token=req.cookies.auth;
-console.log(token);
+
 if(!token){
     token=req.headers.auth;
 
