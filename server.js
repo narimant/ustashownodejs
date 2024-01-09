@@ -43,6 +43,7 @@ const CategoryRoutes=require('./routes/CategoryRoutes');
 const ProductRoutes=require('./routes/ProductRoutes');
 const UserRoutes=require('./routes/UserRoutes');
 const PaymentRoutes=require('./routes/PaymentRoutes');
+const CommentRoutes=require('./routes/CommentRoutes');
 app.use("/api",MiddleBannerRoutes);
 app.use("/api",PostRoutes);
 app.use("/api",SliderRoutes);
@@ -50,7 +51,7 @@ app.use("/api",CategoryRoutes);
 app.use("/api",ProductRoutes);
 app.use("/api",UserRoutes);
 app.use("/api",PaymentRoutes);
-
+app.use("/api",CommentRoutes);
 
 const port = process.env.PORT;
 const db_uri = process.env.DB_URI;

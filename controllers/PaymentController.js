@@ -56,6 +56,8 @@ const DeletePayment = async (req, res) => {
   }
 };
 
+
+
 const getOnePaymentById = async (req, res) => {
   try {
     const goalPayment = await Payment.findById(req.params.id).populate(
@@ -67,6 +69,8 @@ const getOnePaymentById = async (req, res) => {
     res.status(400).json({ msg: error });
   }
 };
+
+
 
 const paymentResulCheck = async (req, res) => {
   try {

@@ -25,11 +25,11 @@ const UserSchema = new mongoose.Schema({
     type: [],
     default: [],
   },
-  comments: {
-    required: true,
-    type: [],
-    default: [],
-  },
+  // comments: {
+  //   required: true,
+  //   type: [],
+  //   default: [],
+  // },
   payments: {
     required: true,
     type: [],

@@ -3,6 +3,9 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+const Comment = require("../models/Comment");
+const Post = require("../models/Post");
+const Product = require("../models/Product");
 const getAllUsers = async (req, res) => {
   try {
     if (req.query.pn) {
@@ -69,10 +72,30 @@ const getUserPartOfData = async (req, res) => {
       });
       res.status(200).json(goalUser);
     } else if (theSlug == "comments") {
-      const goalUser = await User.findById(req.user._id).select({
-        comments: 1,
-      });
-      res.status(200).json(goalUser);
+      const goalUser = await User.findById(req.user._id);
+      const userComments=await Comment.find({email:goalUser.email}).sort({_id:-1})
+      let PostProduct={};
+      const fullDataUserComment=[];
+      for (let index = 0; index < userComments.length; index++) {
+        if(userComments[index].typeOfModel=="post"){
+          PostProduct =await Post.findById(userComments[index].src_id).select({title:1,slug:1})
+        }else{
+          PostProduct =await Product.findById(userComments[index].src_id).select({title:1,slug:1})  
+        }
+       const newCommentData={
+        createdAt:userComments[index].createdAt,
+        published:userComments[index].published,
+        typeOfModel:userComments[index].typeOfModel,
+        message:userComments[index].message,
+        src_id:userComments[index].src_id,
+        src:PostProduct,
+       
+       } 
+       fullDataUserComment.push(newCommentData);
+      }
+  
+      
+      res.status(200).json(fullDataUserComment);
     } else if (theSlug == "payments") {
       const goalUser = await User.findById(req.user._id).select({
         payments: 1,
