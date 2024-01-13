@@ -46,6 +46,7 @@ const newSlider = async (req, res) => {
 
 const updateSlider = async (req, res) => {
   try {
+    console.log(req.body);
     await Slider.updateOne(
       { _id: req.body.bannerId },
       {
@@ -71,6 +72,7 @@ const updateSlider = async (req, res) => {
 
 const DeleteSlider = async (req, res) => {
   try {
+    
     await Slider.deleteOne({ _id: req.body.goalId });
 
     res.status(200).json({ msg: "بنر با موفقیت  حذف شد" });

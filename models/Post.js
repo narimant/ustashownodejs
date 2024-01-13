@@ -1,4 +1,7 @@
 const mongoose = require("mongoose");
+const domPurefire=require('dompurify')
+const {JSDOM}=require('jsdom')
+const htmlpurifire=domPurefire(new JSDOM().window)
 const PostSchema = new mongoose.Schema({
   title: {
     required: true,
@@ -79,4 +82,5 @@ const PostSchema = new mongoose.Schema({
     }),
   },
 });
+
 module.exports = mongoose.model("Post", PostSchema);

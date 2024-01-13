@@ -1,3 +1,4 @@
+const { validationResult } = require("express-validator");
 const MiddleBanner = require("../models/MiddleBanner");
 
 const getAllMidBan = async (req, res) => {
@@ -37,7 +38,7 @@ const newMidBan = async (req, res) => {
     });
     newMidBan.save().then((d) => {
       res.status(200).json({ msg: "بنر با موفقیت ایجاد شد" });
-    });
+    }).catch(error=>console.log(error));
   } catch (error) {
     console.log(error);
     res.status(400).json({ msg: "خطا در زخیره بنر" });

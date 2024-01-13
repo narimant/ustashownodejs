@@ -5,17 +5,23 @@ const Use = require("../models/User");
 const { check } = require("express-validator");
 const User = require("../models/User");
 const userExist = require("../middlewares/userExist");
-
+const isAdmin=require('../middlewares/isAdmin')
+const ratelimit=require('express-rate-limit')
+const limiter=ratelimit({
+  windowMs:15*60*1000,
+  max:5,
+  statusCode:200,
+  handler:function(req,res){
+    res.status(429).json({msg:"کاربر گرامی به دلیل درخواستهای متعدد IP شما به مدت 15 دقیقه مسدود شده است"})
+  }
+})
 router.post(
-  "/user-login",
+  "/user-login",  limiter,
   [
     check("email", " فرمت ایمیل درست نیست  ").isEmail(),
-    check(
-      "password",
-      "  تعداد کاراکتر نام نمایشی بین 8 و 20 کاراکتر باید باشد"
-    ).isLength({ min: 8, max: 20 }),
+    check("password","  تعداد کاراکتر نام نمایشی بین 8 و 20 کاراکتر باید باشد").isLength({ min: 8, max: 20 }),
   ],
-  UserController.loginUesr
+UserController.loginUesr
 );
 
 router.get("/users", UserController.getAllUsers);
@@ -41,7 +47,7 @@ router.post(
   ],
   UserController.registerUser
 );
-router.delete("/delete-user/:id", UserController.Deleteuser);
+router.delete("/delete-user/:id",isAdmin, UserController.Deleteuser);
 router.patch(
   "/update-mini-user/:id",
   [
@@ -78,13 +84,14 @@ router.patch(
 );
 //for user
 router.get("/get-user-data", userExist, UserController.getUserDataAccount);
+router.get("/get-user-admin-data", isAdmin, UserController.getUserAdminData);
 router.get(
   "/get-part-of-user-data/:slug",
   userExist,
   UserController.getUserPartOfData
 );
 //for admin
-router.get("/get-user/:id", UserController.getOneUserById);
+router.get("/get-user/:id",isAdmin, UserController.getOneUserById);
 router.get(
   "/search-users",
   [check("email", "فرمت ایمیل اشتباه است").isEmail()],

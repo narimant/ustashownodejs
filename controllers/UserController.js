@@ -341,6 +341,21 @@ const getUserDataAccount = async (req, res) => {
   }
 };
 
+const getUserAdminData = async (req, res) => {
+  try {
+    const goalUser = await User.findById(req.user._id)
+      .select({
+        password: false,
+      })
+      .populate("favoriteProducts")
+      .populate("cart");
+    res.status(200).json(goalUser);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ msg: error });
+  }
+};
+
 const searchUsers = async (req, res) => {
   try {
     const theUser = await User.find({ email: req.body.email });
@@ -465,3 +480,4 @@ module.exports.getUserPartOfData = getUserPartOfData;
 module.exports.favoriteProductManager = favoriteProductManager;
 module.exports.cartManager = cartManager;
 module.exports.cartNumber = cartNumber;
+module.exports.getUserAdminData = getUserAdminData;

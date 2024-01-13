@@ -89,8 +89,11 @@ const newPost = async (req, res) => {
 
 const UpdatePost = async (req, res) => {
   try {
+   
     const data = req.body;
-    data.slug = req.body.slug.replace(/\s+/g, "-").toLowerCase();
+//  data.slug = req.body.slug.replace(/\s+/g, "-").toLowerCase();
+
+console.log(req.body);
     await Post.findByIdAndUpdate(req.params.id, data, { new: true });
 
     res.status(200).json({ msg: "پست با موفقیت بروز رسانی شد" });

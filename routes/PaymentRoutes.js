@@ -2,17 +2,18 @@ const express = require("express");
 const router = express();
 const PaymentController = require("../controllers/PaymentController");
 const userExist=require('../middlewares/userExist')
-router.get("/payments", PaymentController.getAllPayments);
+const isAdmin=require('../middlewares/isAdmin')
+router.get("/payments",isAdmin, PaymentController.getAllPayments);
 
-router.delete("/delete-payment/:id", PaymentController.DeletePayment);
+router.delete("/delete-payment/:id",isAdmin, PaymentController.DeletePayment);
 
 router.patch(
-  "/update-payment/:id",
+  "/update-payment/:id",isAdmin,
   PaymentController.UpdatePayment
 );
 
 //for admin
-router.get("/get-payment/:id", PaymentController.getOnePaymentById);
+router.get("/get-payment/:id",isAdmin, PaymentController.getOnePaymentById);
 
 
 //main payment 

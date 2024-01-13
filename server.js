@@ -29,6 +29,10 @@ app.use(xssCleaner());
 app.use(mongoSanitize());
 app.use(hpp());
 
+
+
+
+
 app.get("/", (req, res) => {
   res.status(200).json({
     msg: "this is nariman file shop course server...",
@@ -44,6 +48,7 @@ const ProductRoutes=require('./routes/ProductRoutes');
 const UserRoutes=require('./routes/UserRoutes');
 const PaymentRoutes=require('./routes/PaymentRoutes');
 const CommentRoutes=require('./routes/CommentRoutes');
+
 app.use("/api",MiddleBannerRoutes);
 app.use("/api",PostRoutes);
 app.use("/api",SliderRoutes);

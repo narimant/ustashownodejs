@@ -190,6 +190,21 @@ const getModelComments=async (req,res)=>{
   }
 }
 
+const getCommentCount=async (req,res)=>{
+
+  try {
+
+    const getAllComments=await Comment.find({src_id:req.params.id,published:true,parentId:""});
+
+
+      res.status(200).json(getAllComments.length)
+  
+
+
+  } catch (error) {
+    
+  }
+}
 
 
 
@@ -203,6 +218,6 @@ module.exports.newComment = newComment;
 module.exports.getModelComments = getModelComments;
 module.exports.publishComment = publishComment;
 module.exports.getCommentChildren = getCommentChildren;
-
+module.exports.getCommentCount = getCommentCount;
 
 
